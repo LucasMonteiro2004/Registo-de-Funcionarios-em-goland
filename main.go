@@ -1,7 +1,9 @@
 package main
 
-import "Estruturas/estruturas"
+import (
+	"fmt"
+)
 
 func main() {
-	estruturas.cria_Funcionario()
+	fmt.Println("Hello World!")
 }

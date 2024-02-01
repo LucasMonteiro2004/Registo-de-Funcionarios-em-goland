@@ -31,4 +31,4 @@ func cria_Funcionario(idade int, nome string, horario_trabalho string, salario i
 	return funcionario
 }
 
-//estruturas.adiciona_Funcionario(23, "Lucas", "09:00 - 18:00", 15000, "Estagiario", "21_03_2015", 3)
+//(23, "Lucas", "09:00 - 18:00", 15000, "Estagiario", "21_03_2015", 3)
