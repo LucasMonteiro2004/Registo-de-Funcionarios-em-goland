@@ -90,8 +90,23 @@ func adiciona_funcionario_equipa(pessoa Funcionario, id int) {
 	}
 }
 
-func removePessoa(idEquipe, idPessoa int) {
-	
+func removePessoa(idEquipe, idFunc int) {
+	for i, equipe := range equipes {
+		if equipe.id == idEquipe {
+			for j, funcionario := range equipe.funcionarios {
+				if funcionario.id == idFunc {
+					// Remover o funcionário do slice usando técnicas de slicing
+					equipes[i].funcionarios = append(equipes[i].funcionarios[:j], equipes[i].funcionarios[j+1:]...)
+					fmt.Println("Funcionário removido da equipe com sucesso!")
+					print_Funcionarios(equipes[i].funcionarios)
+					return
+				}
+			}
+			fmt.Println("Funcionário não encontrado na equipe.")
+			return
+		}
+	}
+	fmt.Println("Equipe não encontrada.")
 }
 
 func procurar_equipe_para_fun(fun Funcionario, id int){
@@ -114,4 +129,6 @@ func main() {
 	//eq = append(eq, funcionario_1)
 	adiciona_funcionario_equipa(funcionario_1, 1)
 	adiciona_funcionario_equipa(funcionario_2, 1)
+
+	removePessoa(1, 1)
 }
