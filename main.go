@@ -43,72 +43,75 @@ func cria_Funcionario(idade int, nome string, horario_trabalho string, salario i
 	return funcionario
 }
 
-func adiciona_funcionario_equipe(pessoa Funcionario, id int) {
+func cria_equipe(funcionarios []Funcionario, n_funcionarios int, id int, nome string, funcao string) {
+	// Verificar se a equipe já existe com base no ID e nome
+	for _, equipe := range equipes {
+		if id == equipe.id || nome == equipe.nome {
+			fmt.Println("Equipe já existe. Não será adicionada.")
+			return
+		}
+	}
+
+	// Criar a nova equipe e adicioná-la à lista de equipes
+	newEquipa := Equipa{
+		funcionarios:           funcionarios,
+		numero_de_funcionarios: n_funcionarios,
+		id:                     id,
+		nome:                   nome,
+		funcao:                 funcao,
+	}
+
+	equipes = append(equipes, newEquipa)
+
+	fmt.Println("Equipe adicionada com sucesso.")
+}
+
+func print_all_equipes(){
+	for _, equipa := range equipes{
+		print_Funcionarios(equipa.funcionarios)
+	}
+}
+
+func adiciona_funcionario_equipa(pessoa Funcionario, id int) {
 	// Verificar se a equipe já existe
 	var equipeExistente bool
-	for i := range equipes {
-		if id == equipes[i].id {
-			equipes[i].funcionarios = append(equipes[i].funcionarios, pessoa)
+	for _, equipe := range equipes{
+		if id == equipe.id {
 			equipeExistente = true
-			break
+			equipe.funcionarios = append(equipe.funcionarios, pessoa)
+			fmt.Println("Funcionario adicionado a equipe com sucesso!")
+			print_Funcionarios(equipe.funcionarios)
 		}
 	}
 
 	// Se a equipe não existir, criar uma nova equipe
 	if !equipeExistente {
-		novaEquipe := Equipa{id: id}
-		novaEquipe.funcionarios = append(novaEquipe.funcionarios, pessoa)
-		equipes = append(equipes, novaEquipe)
+		fmt.Println("Equipe não encontrada")
 	}
 }
 
 func removePessoa(idEquipe, idPessoa int) {
-	// Verificar se a equipe existe
-	var equipeIndex int
-	var equipeExistente bool
-	for i, equipe := range equipes {
-		if idEquipe == equipe.id {
-			equipeExistente = true
-			equipeIndex = i
-			break
+	
+}
+
+func procurar_equipe_para_fun(fun Funcionario, id int){
+	for _, equipa := range equipes{
+		if equipa.id == id{
+			adiciona_funcionario_equipa(fun, id)
 		}
 	}
-
-	if !equipeExistente {
-		fmt.Println("Equipe nao encontrada para o ID:", idEquipe)
-		return
-	}
-
-	// Remover a pessoa da fatia
-	for j, funcionario := range equipes[equipeIndex].funcionarios {
-		if idPessoa == funcionario.id {
-			equipes[equipeIndex].funcionarios = append(equipes[equipeIndex].funcionarios[:j], equipes[equipeIndex].funcionarios[j+1:]...)
-			fmt.Println("Pessoa removida com sucesso.")
-			return
-		}
-	}
-
-	fmt.Println("Pessoa nao encontrada para o ID:", idPessoa)
 }
 
 func main() {
-	// Criação de uma equipe e adição de funcionários
-	var vec []Funcionario
-	equipe1 := Equipa{funcionarios: vec, numero_de_funcionarios: 0, id: 1, nome: "Equipe A", funcao: "Des"}
-	funcionario1 := cria_Funcionario(25, "João", "9h-17h", 5000, "Desenvolvedor", "01/01/2022", 1, 123456789)
-	funcionario2 := cria_Funcionario(30, "Maria", "10h-18h", 6000, "Analista", "01/02/2022", 2, 987654321)
 
-	adiciona_funcionario_equipe(funcionario1, 1)
-	adiciona_funcionario_equipe(funcionario2, 1)
+	var eq []Funcionario
+	cria_equipe(eq, 0, 1, "Equipe A", "Design")
 
-	// Impressão dos funcionários antes da remoção
-	fmt.Println("Funcionários da Equipe A antes da remoção:")
-	print_Funcionarios(equipe1.funcionarios)
+	var funcionario_1 = Funcionario{idade: 23, nome: "Lucas", horario_trabalho: "09:00 - 18:00", salario: 13000, cargo: "Estagiario", data_contratacao: "21_03_2023", id: 2, nif: 91834526}
 
-	// Remoção de um funcionário pelo ID da equipe e da pessoa
-	removePessoa(1, 2)
-
-	// Impressão dos funcionários após a remoção
-	fmt.Println("Funcionários da Equipe A após a remoção:")
-	print_Funcionarios(equipe1.funcionarios)
+	var funcionario_2 = Funcionario{idade: 20, nome: "Miguel", horario_trabalho: "09:00 - 18:00", salario: 16000, cargo: "junior", data_contratacao: "27_05_2022", id: 1, nif: 97165347}
+	
+	//eq = append(eq, funcionario_1)
+	adiciona_funcionario_equipa(funcionario_1, 1)
+	adiciona_funcionario_equipa(funcionario_2, 1)
 }
